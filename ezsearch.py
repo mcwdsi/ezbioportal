@@ -21,7 +21,7 @@ headers = {"Authorization": f"apikey token={API_KEY}"}
 params_base = {
     #"q": "TGF-beta",  # Search term
     #"pagesize": 10,     # Limit results per page
-    "require_exact_match": True
+    "require_exact_match": "true"
 }
 
 query_file_name = sys.argv[2]
@@ -41,7 +41,7 @@ for term in terms:
             #print(f"PrefLabel: {item.get('prefLabel')}")
             #print(f"Ontology:  {item.get('links', {}).get('ontology')}")
             #print(f"ID:        {item.get('@id')}\n")
-            print(term, "\t", item.get('prefLabel'), item.get('@id'), "\t", item.get('ontology'), "\t", item.get('links').get('ontology'), "\n")
+            print(term, "\t", item.get('prefLabel'), "\t", item.get('@id'), "\t", item.get('ontology'), "\t", item.get('links').get('ontology'))
     else:
         print(f"Error: {response.status_code} - {response.text}")
 
