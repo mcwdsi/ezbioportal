@@ -1,6 +1,18 @@
 
 import sys
+import os
 import requests
+import argparse
+
+
+parser = argparse.ArgumentParser(
+                    prog='ezsearch',
+                    description='A way to send multiple search terms to BioPortal')
+
+parser.add_argument('input_file', type=os.path.expanduser)
+parser.add_argument('api_key', type=str)
+parser.add_argument('-x', '--exact', action='store_true')
+args = parser.parse_args()
 
 # Check if the API key argument was provided
 if len(sys.argv) < 3:
@@ -9,8 +21,7 @@ if len(sys.argv) < 3:
     sys.exit(1)
 
 # Retrieve API key from the first command-line argument
-API_KEY = sys.argv[1]
-
+API_KEY = args.api_key
 
 # Base configuration
 BASE_URL = "https://data.bioontology.org/search"
@@ -21,10 +32,10 @@ headers = {"Authorization": f"apikey token={API_KEY}"}
 params_base = {
     #"q": "TGF-beta",  # Search term
     #"pagesize": 10,     # Limit results per page
-    "require_exact_match": "true"
+    "require_exact_match": str(args.exact).lower()
 }
 
-query_file_name = sys.argv[2]
+query_file_name = args.input_file
 query_file = open(query_file_name, "r", encoding="utf-8")
 terms = query_file.read().splitlines()
 
